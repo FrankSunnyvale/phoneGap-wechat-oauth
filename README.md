@@ -7,7 +7,7 @@ phoneGap wechat oauth
 Example - get user info
 ```javascript
 WechatOauth.getUserInfo({}, function() {
-      console.log("ok");
+      console.log(JSON.stringify(e));
 }, function() {
     console.log("error");
 });
