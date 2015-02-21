@@ -125,7 +125,7 @@ public class WXEntryActivity extends Activity {
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, response);
+				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, response));
 				WXEntryActivity.this.finish();
 			}
 
