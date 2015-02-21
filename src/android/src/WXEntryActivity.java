@@ -125,7 +125,6 @@ public class WXEntryActivity extends Activity {
 				try {
 					response = new JSONObject(json);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, response));
