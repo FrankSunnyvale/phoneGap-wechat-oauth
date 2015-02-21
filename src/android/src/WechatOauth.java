@@ -16,7 +16,7 @@ import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-public class Wechat extends CordovaPlugin {
+public class WechatOauth extends CordovaPlugin {
   public static String TAG = "Wechat";
   public CallbackContext callbackContext;
 
