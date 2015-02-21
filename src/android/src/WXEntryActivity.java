@@ -20,11 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.share.weiboShare.WeiboShare;
+import com.oauth.wechat.WechatOauth;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.oauth.wechat.WechatOauth;
 
 public class WXEntryActivity extends Activity {
 
@@ -32,7 +30,6 @@ public class WXEntryActivity extends Activity {
 
 	final String APP_ID = "wxb8587d398599a602";
 
-	private IWXAPI api;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -123,6 +120,12 @@ public class WXEntryActivity extends Activity {
 				try {
 					json = new String(json.getBytes("ISO-8859-1"), "utf-8");
 				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				try {
+					response = new JSONObject(json);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, response));
