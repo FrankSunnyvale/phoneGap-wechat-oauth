@@ -24,6 +24,7 @@ import com.share.weiboShare.WeiboShare;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.oauth.wechat.WechatOauth;
 
 public class WXEntryActivity extends Activity {
 
@@ -124,7 +125,7 @@ public class WXEntryActivity extends Activity {
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, response));
+				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, response)；
 				WXEntryActivity.this.finish();
 			}
 
