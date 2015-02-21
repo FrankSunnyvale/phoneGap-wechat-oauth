@@ -37,17 +37,11 @@ public class WechatOauth extends CordovaPlugin {
           }
         });
       }
-
       api.registerApp(APP_ID);
       final SendAuth.Req req = new SendAuth.Req();
       req.scope = "snsapi_userinfo";
       req.state = "wechat_sdk_demo_test";
       api.sendReq(req);
-
-      JSONObject result = new JSONObject();
-      result.put("result", true);
-
-      callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
       return true;
     } catch (JSONException e) {
       e.printStackTrace();
@@ -55,11 +49,5 @@ public class WechatOauth extends CordovaPlugin {
     }
     callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
     return false;
-  }
-
-  @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    super.onActivityResult(requestCode, resultCode, intent);
-    Log.d(TAG, intent.getBundleExtra("json").toString());
   }
 }
