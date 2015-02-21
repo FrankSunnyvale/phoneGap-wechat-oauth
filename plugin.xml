@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="com.share.wechatShare" version="0.0.1">
+        id="com.oauth.wechat" version="0.0.1">
   <name>WechatOauth</name>
   <description>Plugin for Wechat get user info</description>
   <author>lv</author>
@@ -15,7 +15,7 @@
   <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="WechatOauth">
-        <param name="android-package" value="com.share.wechatShare.WechatOauth"/>
+        <param name="android-package" value="com.oauth.wechat.WechatOauth"/>
       </feature>
     </config-file>
     <config-file target="AndroidManifest.xml" parent="/manifest">
