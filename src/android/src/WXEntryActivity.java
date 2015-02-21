@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.cordova.PluginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.share.weiboShare.WeiboShare;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -116,22 +118,13 @@ public class WXEntryActivity extends Activity {
 			@Override
 			public void onResponse(JSONObject response) {
 				Log.d(TAG, response.toString());
-				String name = response.toString();
+				String json = response.toString();
 				try {
-					name = response.getString("nickname");
-					name = new String(name.getBytes("ISO-8859-1"), "utf-8");
-				} catch (JSONException e1) {
-					e1.printStackTrace();
+					json = new String(json.getBytes("ISO-8859-1"), "utf-8");
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-
-				Toast.makeText(WXEntryActivity.this, name, Toast.LENGTH_LONG).show();
-
-				Intent intent = new Intent();
-				intent.putExtra("json", name);
-
-				WXEntryActivity.this.setResult(1, intent);
+				WeiboShare.weibo.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, response));
 				WXEntryActivity.this.finish();
 			}
 
@@ -148,7 +141,6 @@ public class WXEntryActivity extends Activity {
 				HashMap<String, String> headers = new HashMap<String, String>();
 				headers.put("Accept", "application/json");
 				headers.put("Content-Type", "application/json; charset=utf-8");
-
 				return headers;
 			}
 		};

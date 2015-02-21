@@ -22,9 +22,11 @@ public class WechatOauth extends CordovaPlugin {
 
   private IWXAPI api;
   final String APP_ID = "wxb8587d398599a602";
+  public static WeiboShare weibo = null;
 
   public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
     try {
+      weibo = this;
       this.callbackContext = callbackContext;
       final Context context = this.cordova.getActivity().getApplicationContext();
       api = WXAPIFactory.createWXAPI(context, APP_ID, false);
