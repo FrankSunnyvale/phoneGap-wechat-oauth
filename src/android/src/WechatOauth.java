@@ -2,14 +2,10 @@ package com.oauth.wechat;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -25,7 +21,6 @@ public class WechatOauth extends CordovaPlugin {
   public static WechatOauth wechat = null;
 
   public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-    try {
       wechat = this;
       this.callbackContext = callbackContext;
       final Context context = this.cordova.getActivity().getApplicationContext();
@@ -43,11 +38,5 @@ public class WechatOauth extends CordovaPlugin {
       req.state = "wechat_sdk_demo_test";
       api.sendReq(req);
       return true;
-    } catch (JSONException e) {
-      e.printStackTrace();
-      Log.e("Protonet", "JSON Exception Plugin... :(");
-    }
-    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
-    return false;
   }
 }
