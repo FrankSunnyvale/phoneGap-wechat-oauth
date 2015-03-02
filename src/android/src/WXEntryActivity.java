@@ -63,7 +63,7 @@ public class WXEntryActivity extends Activity {
 			result = "errcode_unknown";
 			break;
 		}
-		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class WXEntryActivity extends Activity {
 			@Override
 			public void onErrorResponse(VolleyError response) {
 				response.printStackTrace();
-				Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
+				//Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		}));
 		mQueue.start();
@@ -136,7 +136,7 @@ public class WXEntryActivity extends Activity {
 			@Override
 			public void onErrorResponse(VolleyError response) {
 				response.printStackTrace();
-				Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
+				//Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		}) {
 			@Override
@@ -165,7 +165,7 @@ public class WXEntryActivity extends Activity {
 			@Override
 			public void onResponse(JSONObject response) {
 				Log.d(TAG, response.toString());
-				Toast.makeText(WXEntryActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+				//Toast.makeText(WXEntryActivity.this, response.toString(), Toast.LENGTH_LONG).show();
 			}
 
 		}, new Response.ErrorListener() {
@@ -173,7 +173,7 @@ public class WXEntryActivity extends Activity {
 			@Override
 			public void onErrorResponse(VolleyError response) {
 				response.printStackTrace();
-				Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
+				//Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		}));
 		mQueue.start();
