@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
@@ -30,7 +29,6 @@ public class WXEntryActivity extends Activity {
 
 	final String APP_ID = "wxb8587d398599a602";
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,24 +44,22 @@ public class WXEntryActivity extends Activity {
 
 	private void handleIntent(Intent intent) {
 		SendAuth.Resp resp = new SendAuth.Resp(intent.getExtras());
-		String result = "";
 		SendAuth.Resp r = (SendAuth.Resp) resp;
 		switch (r.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
-			result = "errcode_success " + r.code;
 			getToken(r.code);
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
-			result = "errcode_cancel";
+			WXEntryActivity.this.finish();
 			break;
 		case BaseResp.ErrCode.ERR_AUTH_DENIED:
-			result = "errcode_deny";
+			WXEntryActivity.this.finish();
 			break;
 		default:
-			result = "errcode_unknown";
+			WXEntryActivity.this.finish();
 			break;
 		}
-		//Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+		// Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -72,9 +68,7 @@ public class WXEntryActivity extends Activity {
 	 * @param code
 	 */
 	public void getToken(String code) {
-		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + APP_ID + "&secret=c89def438ee755365d59f6a20fa5d098&code=" + code
-				+ "&grant_type=authorization_code";
-
+		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + APP_ID + "&secret=c89def438ee755365d59f6a20fa5d098&code=" + code + "&grant_type=authorization_code";
 		RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
 		mQueue.add(new JsonObjectRequest(Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -93,7 +87,7 @@ public class WXEntryActivity extends Activity {
 			@Override
 			public void onErrorResponse(VolleyError response) {
 				response.printStackTrace();
-				//Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
+				// Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		}));
 		mQueue.start();
@@ -136,7 +130,7 @@ public class WXEntryActivity extends Activity {
 			@Override
 			public void onErrorResponse(VolleyError response) {
 				response.printStackTrace();
-				//Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
+				// Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		}) {
 			@Override
@@ -165,7 +159,7 @@ public class WXEntryActivity extends Activity {
 			@Override
 			public void onResponse(JSONObject response) {
 				Log.d(TAG, response.toString());
-				//Toast.makeText(WXEntryActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+				// Toast.makeText(WXEntryActivity.this, response.toString(), Toast.LENGTH_LONG).show();
 			}
 
 		}, new Response.ErrorListener() {
@@ -173,7 +167,7 @@ public class WXEntryActivity extends Activity {
 			@Override
 			public void onErrorResponse(VolleyError response) {
 				response.printStackTrace();
-				//Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
+				// Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
 			}
 		}));
 		mQueue.start();
