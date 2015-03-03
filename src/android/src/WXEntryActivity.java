@@ -50,12 +50,15 @@ public class WXEntryActivity extends Activity {
 			getToken(r.code);
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
+			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
 			WXEntryActivity.this.finish();
 			break;
 		case BaseResp.ErrCode.ERR_AUTH_DENIED:
+			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
 			WXEntryActivity.this.finish();
 			break;
 		default:
+			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
 			WXEntryActivity.this.finish();
 			break;
 		}
