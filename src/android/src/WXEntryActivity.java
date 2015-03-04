@@ -20,10 +20,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.oauth.wechat.WechatOauth;
+import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
-public class WXEntryActivity extends Activity {
+public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	final String TAG = "WXEntryActivity";
 
@@ -174,6 +176,37 @@ public class WXEntryActivity extends Activity {
 			}
 		}));
 		mQueue.start();
+	}
+
+	@Override
+	public void onReq(BaseReq paramBaseReq) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onResp(BaseResp resp) {
+		int result = 0;
+		switch (resp.errCode) {
+		case BaseResp.ErrCode.ERR_OK:
+			// result = R.string.errcode_success;
+			break;
+		case BaseResp.ErrCode.ERR_USER_CANCEL:
+			// result = R.string.errcode_cancel;
+			break;
+		case BaseResp.ErrCode.ERR_AUTH_DENIED:
+			// result = R.string.errcode_deny;
+			break;
+		default:
+			// result = R.string.errcode_unknown;
+			break;
+		}
+
+		// Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+
+		// TODO 微信分享 成功之后调用接口
+		this.finish();
+
 	}
 
 }
