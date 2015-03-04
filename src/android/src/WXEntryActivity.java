@@ -20,51 +20,33 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.oauth.wechat.WechatOauth;
+import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	final String TAG = "WXEntryActivity";
 
 	final String APP_ID = "wxb8587d398599a602";
+	private IWXAPI api;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		handleIntent(getIntent());
+		api = WXAPIFactory.createWXAPI(this, APP_ID, false);
+		api.handleIntent(getIntent(), this);
 	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		setIntent(intent);
-		handleIntent(intent);
-	}
-
-	private void handleIntent(Intent intent) {
-		SendAuth.Resp resp = new SendAuth.Resp(intent.getExtras());
-		SendAuth.Resp r = (SendAuth.Resp) resp;
-		switch (r.errCode) {
-		case BaseResp.ErrCode.ERR_OK:
-			getToken(r.code);
-			break;
-		case BaseResp.ErrCode.ERR_USER_CANCEL:
-			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
-			WXEntryActivity.this.finish();
-			break;
-		case BaseResp.ErrCode.ERR_AUTH_DENIED:
-			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
-			WXEntryActivity.this.finish();
-			break;
-		default:
-			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
-			WXEntryActivity.this.finish();
-			break;
-		}
-		// Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+		api.handleIntent(getIntent(), this);
 	}
 
 	/**
@@ -92,7 +74,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			@Override
 			public void onErrorResponse(VolleyError response) {
 				response.printStackTrace();
-				// Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
+				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
+				WXEntryActivity.this.finish();
 			}
 		}));
 		mQueue.start();
@@ -135,7 +118,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			@Override
 			public void onErrorResponse(VolleyError response) {
 				response.printStackTrace();
-				// Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
+				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
+				WXEntryActivity.this.finish();
 			}
 		}) {
 			@Override
@@ -180,32 +164,40 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onReq(BaseReq paramBaseReq) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onResp(BaseResp resp) {
-		int result = 0;
 		switch (resp.errCode) {
-		case BaseResp.ErrCode.ERR_OK:
-			// result = R.string.errcode_success;
-			break;
-		case BaseResp.ErrCode.ERR_USER_CANCEL:
-			// result = R.string.errcode_cancel;
-			break;
-		case BaseResp.ErrCode.ERR_AUTH_DENIED:
-			// result = R.string.errcode_deny;
-			break;
-		default:
-			// result = R.string.errcode_unknown;
+		case BaseResp.ErrCode.ERR_OK: {
+			switch (resp.getType()) {
+			case ConstantsAPI.COMMAND_SENDAUTH: {
+				SendAuth.Resp r = (SendAuth.Resp) resp;
+				getToken(r.code);
+				break;
+			}
+			default: {
+				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
+				WXEntryActivity.this.finish();
+				break;
+			}
+			}
 			break;
 		}
-
-		// Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-
-		// TODO 微信分享 成功之后调用接口
-		this.finish();
+		case BaseResp.ErrCode.ERR_USER_CANCEL:
+			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
+			WXEntryActivity.this.finish();
+			break;
+		case BaseResp.ErrCode.ERR_AUTH_DENIED:
+			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
+			WXEntryActivity.this.finish();
+			break;
+		default:
+			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
+			WXEntryActivity.this.finish();
+			break;
+		}
 
 	}
 
