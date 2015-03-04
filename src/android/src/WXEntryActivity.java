@@ -49,11 +49,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		api.handleIntent(getIntent(), this);
 	}
 
-	/**
-	 * 换取token
-	 * 
-	 * @param code
-	 */
 	public void getToken(String code) {
 		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + APP_ID + "&secret=c89def438ee755365d59f6a20fa5d098&code=" + code + "&grant_type=authorization_code";
 		RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
@@ -81,12 +76,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		mQueue.start();
 	}
 
-	/**
-	 * 换取用户资料
-	 * 
-	 * @param token
-	 * @param openid
-	 */
 	public void getUserinfo(String token, String openid) {
 
 		String url = "https://api.weixin.qq.com/sns/userinfo?access_token=" + token + "&openid=" + openid;
@@ -134,12 +123,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		mQueue.start();
 	}
 
-	/**
-	 * 超时刷新 超时2小时
-	 * 
-	 * @param appid
-	 * @param refresh_token
-	 */
 	public void getRefresh_token(String appid, String refresh_token) {
 		String url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=" + appid + "&grant_type=refresh_token&refresh_token=" + refresh_token;
 		RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
@@ -148,7 +131,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			@Override
 			public void onResponse(JSONObject response) {
 				Log.d(TAG, response.toString());
-				// Toast.makeText(WXEntryActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
+				WXEntryActivity.this.finish();
 			}
 
 		}, new Response.ErrorListener() {
@@ -156,7 +140,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			@Override
 			public void onErrorResponse(VolleyError response) {
 				response.printStackTrace();
-				// Toast.makeText(WXEntryActivity.this, "error" + response.getMessage(), Toast.LENGTH_LONG).show();
+				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
+				WXEntryActivity.this.finish();
 			}
 		}));
 		mQueue.start();
@@ -178,7 +163,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 				break;
 			}
 			default: {
-				WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
 				WXEntryActivity.this.finish();
 				break;
 			}
@@ -186,15 +170,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			break;
 		}
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
-			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
 			WXEntryActivity.this.finish();
 			break;
 		case BaseResp.ErrCode.ERR_AUTH_DENIED:
-			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
 			WXEntryActivity.this.finish();
 			break;
 		default:
-			WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
 			WXEntryActivity.this.finish();
 			break;
 		}
