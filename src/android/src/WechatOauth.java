@@ -39,10 +39,10 @@ public class WechatOauth extends CordovaPlugin {
       req.scope = "snsapi_userinfo";
       req.state = "wechat_sdk_demo_test";
       if (api.sendReq(req) == false) {
-        callbackContext.error("WeChat api sendReq failed");
+        //callbackContext.error("WeChat api sendReq failed");
         return true;
       }
-      callbackContext.success();
+      //callbackContext.success();
       return true;
   }
 }
