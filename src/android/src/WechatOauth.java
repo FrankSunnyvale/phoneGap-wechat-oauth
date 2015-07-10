@@ -31,18 +31,14 @@ public class WechatOauth extends CordovaPlugin {
             Toast.makeText(context, "您还未安装微信客户端", Toast.LENGTH_SHORT).show();
           }
         });
-        callbackContext.error("WeChat is not installed");
-        return true;
+        callbackContext.error("Wechat not installed");
+        return false;         
       }
       api.registerApp(APP_ID);
       final SendAuth.Req req = new SendAuth.Req();
       req.scope = "snsapi_userinfo";
       req.state = "wechat_sdk_demo_test";
-      if (api.sendReq(req) == false) {
-        //callbackContext.error("WeChat api sendReq failed");
-        return true;
-      }
-      //callbackContext.success();
+      api.sendReq(req);
       return true;
   }
 }
