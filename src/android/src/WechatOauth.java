@@ -2,7 +2,6 @@ package com.oauth.wechat;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -22,23 +21,28 @@ public class WechatOauth extends CordovaPlugin {
   public static WechatOauth wechat = null;
 
   public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-    wechat = this;
-    this.callbackContext = callbackContext;
-    final Context context = this.cordova.getActivity().getApplicationContext();
-    api = WXAPIFactory.createWXAPI(context, APP_ID, false);
-    if (!api.isWXAppInstalled()) {
-      WechatOauth.wechat.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR));
-      cordova.getActivity().runOnUiThread(new Runnable() {
-        public void run() {
-          Toast.makeText(context, "您还未安装微信客户端", Toast.LENGTH_SHORT).show();
-        }
-      });
-    }
-    api.registerApp(APP_ID);
-    final SendAuth.Req req = new SendAuth.Req();
-    req.scope = "snsapi_userinfo";
-    req.state = "wechat_sdk_demo_test";
-    api.sendReq(req);
-    return true;
+      wechat = this;
+      this.callbackContext = callbackContext;
+      final Context context = this.cordova.getActivity().getApplicationContext();
+      api = WXAPIFactory.createWXAPI(context, APP_ID, false);
+      if (!api.isWXAppInstalled()) {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+          public void run() {
+            Toast.makeText(context, "您还未安装微信客户端", Toast.LENGTH_SHORT).show();
+          }
+        });
+        callbackContext.error("WeChat is not installed");
+        return true;
+      }
+      api.registerApp(APP_ID);
+      final SendAuth.Req req = new SendAuth.Req();
+      req.scope = "snsapi_userinfo";
+      req.state = "wechat_sdk_demo_test";
+      if (api.sendReq(req) == false) {
+        callbackContext.error("WeChat api sendReq failed");
+        return true;
+      }
+      callbackContext.success();
+      return true;
   }
 }
