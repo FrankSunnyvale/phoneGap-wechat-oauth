@@ -17,7 +17,7 @@ public class WechatOauth extends CordovaPlugin {
   public CallbackContext callbackContext;
 
   private IWXAPI api;
-  final String APP_ID = "wxb8587d398599a602";
+  final String APP_ID = "wx2600c1664d3083bd";
   public static WechatOauth wechat = null;
 
   public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {

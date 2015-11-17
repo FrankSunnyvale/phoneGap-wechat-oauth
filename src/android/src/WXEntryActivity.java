@@ -32,7 +32,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	final String TAG = "WXEntryActivity";
 
-	final String APP_ID = "wxb8587d398599a602";
+	final String APP_ID = "wx2600c1664d3083bd";
 	private IWXAPI api;
 
 	@Override
