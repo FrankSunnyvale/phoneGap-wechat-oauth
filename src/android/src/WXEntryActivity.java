@@ -50,7 +50,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	}
 
 	public void getToken(String code) {
-		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + APP_ID + "&secret=c89def438ee755365d59f6a20fa5d098&code=" + code + "&grant_type=authorization_code";
+		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + APP_ID + "&secret=d4624c36b6795d1d99dcf0547af5443d&code=" + code + "&grant_type=authorization_code";
 		RequestQueue mQueue = Volley.newRequestQueue(getApplicationContext());
 		mQueue.add(new JsonObjectRequest(Method.GET, url, null, new Response.Listener<JSONObject>() {
 
