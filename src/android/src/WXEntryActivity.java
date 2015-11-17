@@ -1,4 +1,4 @@
-package org.travelers.together.wxapi;
+package org.storebbs.together.wxapi;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
